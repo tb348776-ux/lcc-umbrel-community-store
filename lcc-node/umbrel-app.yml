@@ -10,4 +10,8 @@ support: https://github.com/tb348776-ux/lcc-umbrel-community-store/issues
 gallery: []
 defaultUsername: ""
 defaultPassword: ""
-port: 80
+
+
+ui:
+  protocol: http
+  port: 80
