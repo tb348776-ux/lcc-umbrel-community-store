@@ -1,18 +1,13 @@
-id: lcc-node
-name: Litecoin Cash Node
-icon: icon.png
-version: "0.1.1"
-description: Run a Litecoin Cash (LCC) full node on Umbrel.
-developer: LCC Community
-dependencies: []
-repo: https://github.com/tb348776-ux/lcc-umbrel-community-store
-support: https://github.com/tb348776-ux/lcc-umbrel-community-store/issues
-gallery: []
-defaultUsername: ""
-defaultPassword: ""
-
-
-ui:
-  protocol: http
-  port: 80
-  service: app
+id: "p2pool-lcc"
+name: "P2Pool Litecoin Cash"
+version: "1.0.0"
+description: "A decentralized solo mining pool for Litecoin Cash. No fees, no middleman."
+developer: "Litecoin Cash Community"
+website: "https://litecoincash.org"
+repo: "https://github.com/mtmining/p2pool-litecoincash"
+support: "https://github.com/mtmining/p2pool-litecoincash/issues"
+port: 9327
+desktop_view: true
+path: ""
+gallery:
+  - "https://raw.githubusercontent.com/mtmining/p2pool-litecoincash/master/web-static/p2pool_screenshot.png"
