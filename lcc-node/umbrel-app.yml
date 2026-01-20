@@ -4,7 +4,6 @@ icon: icon.png
 version: "0.1.0"
 description: Run a Litecoin Cash (LCC) full node on Umbrel.
 developer: LCC Community
-website: https://litecoinca.sh
 dependencies: []
 repo: https://github.com/tb348776-ux/lcc-umbrel-community-store
 support: https://github.com/tb348776-ux/lcc-umbrel-community-store/issues
