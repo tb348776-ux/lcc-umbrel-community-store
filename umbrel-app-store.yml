@@ -2,4 +2,8 @@ id: lcc-community-store
 name: Litecoin Cash Community Store
 description: Community Umbrel apps for Litecoin Cash (LCC)
 version: "0.1.0"
-apps: []
+apps:
+  - id: lcc-node
+    name: Litecoin Cash Node
+    path: lcc-node
+
