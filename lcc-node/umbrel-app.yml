@@ -15,3 +15,4 @@ defaultPassword: ""
 ui:
   protocol: http
   port: 80
+  service: app
