@@ -1,5 +1,6 @@
 id: lcc-node
 name: Litecoin Cash Node
+icon: icon.png
 version: "0.1.0"
 description: Run a Litecoin Cash (LCC) full node on Umbrel.
 developer: LCC Community
