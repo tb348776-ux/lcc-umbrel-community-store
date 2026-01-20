@@ -1,13 +1,11 @@
-id: "p2pool-lcc"
-name: "P2Pool Litecoin Cash"
+id: "lcc-node"
+name: "LCC Solo Pool"
 version: "1.0.0"
-description: "A decentralized solo mining pool for Litecoin Cash. No fees, no middleman."
-developer: "Litecoin Cash Community"
+description: "Solo mine Litecoin Cash directly on your Umbrel. Decentralized and fee-free."
+developer: "Litecoin Cash"
 website: "https://litecoincash.org"
 repo: "https://github.com/mtmining/p2pool-litecoincash"
 support: "https://github.com/mtmining/p2pool-litecoincash/issues"
 port: 9327
 desktop_view: true
 path: ""
-gallery:
-  - "https://raw.githubusercontent.com/mtmining/p2pool-litecoincash/master/web-static/p2pool_screenshot.png"
