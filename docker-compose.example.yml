@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+  # 1. Initialize data folders (Similar to your AxeSuite init)
+  init:
+    image: alpine:3.20
+    entrypoint: ["/bin/sh", "-c", "mkdir -p /data/node /data/p2pool && chown -R 1000:1000 /data"]
+    volumes:
+      - ./data:/data
+
+  # 2. Litecoin Cash Solo Node (Replaces dgbd)
+  lccd:
+    image: litecoincash/litecoincash:latest # Use the official LCC image
+    user: "1000:1000"
+    restart: unless-stopped
+    depends_on:
+      init:
+        condition: service_completed_successfully
+    ports:
+      - "28833:28833" # P2P Port
+    volumes:
+      - ./data/node:/home/litecoincash/.litecoincash
+    command: 
+      - -server=1
+      - -rpcuser=umbrel
+      - -rpcpassword=${APP_PASSWORD:-moneyprintergobrrr}
+      - -rpcallowip=0.0.0.0/0
+      - -rpcbind=0.0.0.0
+      - -prune=2000 # Solo prune mode as requested
+
+  # 3. P2Pool Solo Miner Pool (Replaces miningcore & postgres)
+  p2pool-lcc:
+    image: mtmining/p2pool-litecoincash:latest
+    restart: unless-stopped
+    depends_on:
+      - lccd
+    ports:
+      - "9338:9338" # Stratum port for your ASICs/Miners
+      - "9327:9327" # Web UI Port
+    volumes:
+      - ./data/p2pool:/data
+    # Connects directly to the 'lccd' service above
+    command: >
+      --host lccd
+      --rpc-user umbrel
+      --rpc-password ${APP_PASSWORD:-moneyprintergobrrr}
+      --net litecoincash
+      --wallet <YOUR_LCC_ADDRESS_HERE>
+
+  # 4. Umbrel App Proxy (To show the UI in your dashboard)
+  app_proxy:
+    image: getumbrel/app-proxy:v0.1.0
+    restart: unless-stopped
+    environment:
+      APP_HOST: p2pool-lcc
+      APP_PORT: 9327 # Points to P2Pool Web UI
+    depends_on:
+      - p2pool-lcc
