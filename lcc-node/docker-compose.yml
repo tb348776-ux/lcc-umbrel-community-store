@@ -1,7 +1,48 @@
 version: "3.7"
+
 services:
-  app:
-    image: nginx:alpine
+  # This is the "Brain" (Litecoin Cash Node)
+  lccd:
+    image: litecoincash/litecoincash:latest
+    container_name: lcc-node_lccd_1
     restart: unless-stopped
+    stop_grace_period: 15m
+    ports:
+      - "28833:28833" # P2P Port
     volumes:
-      - ./html:/usr/share/nginx/html:ro
+      - ${APP_DATA_DIR}/data/node:/home/litecoincash/.litecoincash
+    command: 
+      - -server=1
+      - -rpcuser=umbrel
+      - -rpcpassword=moneyprintergobrrr
+      - -rpcallowip=0.0.0.0/0
+      - -rpcbind=0.0.0.0
+      - -prune=2000
+
+  # This is the "Pool" (The part your miner talks to)
+  p2pool-lcc:
+    image: mtmining/p2pool-litecoincash:latest
+    container_name: lcc-node_p2pool_1
+    restart: unless-stopped
+    depends_on:
+      - lccd
+    ports:
+      - "9338:9338" # Connect your miner here
+      - "9327:9327" # Web Dashboard
+    volumes:
+      - ${APP_DATA_DIR}/data/p2pool:/data
+    command: >
+      --host lccd
+      --rpc-user umbrel
+      --rpc-password moneyprintergobrrr
+      --net litecoincash
+
+  # This tells Umbrel how to show the dashboard
+  app_proxy:
+    image: getumbrel/app-proxy:v0.1.0
+    restart: unless-stopped
+    environment:
+      APP_HOST: lcc-node_p2pool_1
+      APP_PORT: 9327
+    depends_on:
+      - p2pool-lcc
